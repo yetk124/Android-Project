@@ -1,0 +1,47 @@
+<!-- message_item.xml -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#D6D1D1"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/text333"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User: "
+        android:textColorLink="#D6D1D1" />
+
+    <TextView
+        android:id="@+id/purchaseTextView"
+        android:layout_width="187dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="151dp"
+        android:layout_toEndOf="@+id/text333"
+        android:text=""
+        android:textColorLink="#D6D1D1" />
+
+    <TextView
+        android:id="@+id/text3333"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/purchaseTextView"
+        android:layout_marginTop="9dp"
+        android:text="Message: " />
+
+    <TextView
+        android:id="@+id/messageTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/purchaseTextView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toEndOf="@+id/text3333"
+        android:text=""
+        android:textColorLink="#D6D1D1" />
+
+</RelativeLayout>

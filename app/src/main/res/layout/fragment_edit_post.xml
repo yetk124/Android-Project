@@ -1,0 +1,136 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#FEF3F2"
+    tools:context=".Profile.EditFragment">
+
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="56dp"
+        android:background="#FADFDD"
+
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/contentTextView"
+        android:layout_width="372dp"
+        android:layout_height="254dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="1dp"
+        android:background="#FADFDD"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
+
+    <TextView
+        android:id="@+id/priceTextView"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="16dp"
+        android:background="#FADFDD"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/sellerTextView"
+        app:layout_constraintTop_toBottomOf="@+id/contentTextView" />
+
+    <TextView
+        android:id="@+id/sellerTextView"
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:background="#FADFDD"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/contentTextView"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <EditText
+        android:id="@+id/titleEditText"
+        android:background="#FADFDD"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="4dp"
+        android:textSize="20sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <EditText
+        android:id="@+id/contentEditText"
+        android:background="#FADFDD"
+        android:layout_width="372dp"
+        android:layout_height="253dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.781"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sellerEditText" />
+
+
+    <EditText
+        android:id="@+id/priceEditText"
+        android:background="#FADFDD"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:textSize="16sp"
+        android:visibility="gone"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contentEditText" />
+
+
+    <EditText
+        android:id="@+id/sellerEditText"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.948"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleEditText" />
+
+
+    <CheckBox
+        android:id="@+id/isAvailableCheckBox"
+        android:layout_width="101dp"
+        android:layout_height="41dp"
+        android:layout_marginBottom="108dp"
+        android:background="#FADFDD"
+        android:text="판매여부"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.019"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/editButton"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:backgroundTint="#FCD19C"
+        android:textColor="@color/black"
+        android:layout_marginBottom="44dp"
+        android:text="수정하기"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

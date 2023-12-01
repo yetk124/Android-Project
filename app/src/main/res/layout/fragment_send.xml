@@ -1,0 +1,70 @@
+<!-- fragment_chat.xml -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FCE7E5">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:background="#FEF3F2">
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="380dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/drawable"
+            android:layout_marginBottom="10dp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="    ∑ 메세지"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+
+
+    <EditText
+        android:id="@+id/recipientInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:hint="Enter recipient..." />
+    <EditText
+        android:id="@+id/messageInput"
+        android:layout_width="395dp"
+        android:layout_height="111dp"
+        android:layout_below="@id/recipientInput"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:hint="Type your message..."
+        android:imeOptions="actionSend"
+        android:inputType="textMultiLine"
+        android:maxLines="4" />
+
+    <Button
+        android:id="@+id/sendButton"
+        android:layout_width="141dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="132dp"
+        android:backgroundTint="#FCD19C"
+        android:text="보내기"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+
+</RelativeLayout>
