@@ -16,34 +16,43 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class SendFragment : Fragment() {
 
+    // Firebase 인증(Authentication) 인스턴스
     private lateinit var auth: FirebaseAuth
+    // Firebase Firestore 인스턴스
     private lateinit var db: FirebaseFirestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // 이 프래그먼트의 레이아웃을 확장(inflate)합니다.
         val view = inflater.inflate(R.layout.fragment_send, container, false)
 
+        // Firebase 인스턴스 초기화
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
+        // 각 뷰들을 ID를 통해 찾습니다.
         val recipientInput = view.findViewById<EditText>(R.id.recipientInput)
         val messageInput = view.findViewById<EditText>(R.id.messageInput)
         val sendButton = view.findViewById<Button>(R.id.sendButton)
 
+        // Arguments로부터 판매자 이메일을 가져와 설정합니다.
         val sellerEmail = arguments?.getString("sellerEmail")
         recipientInput.setText(sellerEmail)
 
+        // 현재 사용자의 이메일을 가져옵니다.
         val userEmail = auth.currentUser?.email
         if (userEmail == null) {
             return view
         }
 
+        // 전송 버튼에 클릭 리스너를 추가합니다.
         sendButton.setOnClickListener {
             val recipient = recipientInput.text.toString()
             val message = messageInput.text.toString()
 
+            // Firestore에서 사용자 정보를 가져옵니다.
             db.collection("users").document(userEmail)
                 .get()
                 .addOnSuccessListener { document ->
@@ -61,30 +70,30 @@ class SendFragment : Fragment() {
                             return@addOnSuccessListener
                         }
 
+                        // 채팅 컬렉션에 새로운 메시지를 추가합니다.
                         db.collection("chat")
                             .add(newMessage)
                             .addOnSuccessListener {
+                                // BottomNavigationActivity로 이동하는 인텐트를 생성하고 실행합니다.
                                 val intent = Intent(context, BottomNavigationActivity::class.java)
                                 startActivity(intent)
                             }
                             .addOnFailureListener { e ->
                                 Toast.makeText(
                                     context,
-                                    "Failed to send message: ${e.message}",
+                                    "메시지 전송 실패: ${e.message}",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
                     } ?: run {
-
-                        Toast.makeText(context, "판매자 정보를 불러올 수 없습니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "판매자 정보 불러오기 실패", Toast.LENGTH_SHORT).show()
                     }
                 }
                 .addOnFailureListener {
-                    Toast.makeText(context, "사용자 정보를 불러올 수 없습니다.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "사용자 정보 불러오기 실패", Toast.LENGTH_SHORT).show()
                 }
         }
 
         return view
     }
 }
-
