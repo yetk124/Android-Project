@@ -2,7 +2,6 @@ package com.example.market.Home
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.market.R
@@ -25,29 +23,27 @@ class HomeFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var storage: FirebaseStorage
     private lateinit var adapter: ProductAdapter
-    private lateinit var recyclerView : RecyclerView
+    private lateinit var recyclerView: RecyclerView
 
-    // 프래그먼트의 뷰가 생성될 때 호출되는 메소드
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-        recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view) // 여기에 수정
-        //리사이클러 뷰의 레이아웃 매니저 설정.
+        recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
+
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        // 필터 버튼 클릭 시 동작 정의, Dialog를 이용해 필터링을 구현했음.
+        // 필터 버튼 클릭 시 동작 정의
         val filterButton = view.findViewById<Button>(R.id.filterButton)
         filterButton.setOnClickListener {
             // 필터링 옵션 Dialog 표시
             val dialog = AlertDialog.Builder(requireContext())
                 .setTitle("Filter")
-                .setSingleChoiceItems(arrayOf("⚪️ 모든 상품", "🟢 판매중", "🔴 판매완료"), -1) { dialog, which ->
+                .setSingleChoiceItems(arrayOf("⚪️ 모든 상품", "🟢 판매 중", "🔴 판매 완료"), -1) { dialog, which ->
                     when (which) {
-                        //선택한 각 버튼에 따라서 상품을 불러올 대 판매여부를 알 수 있는
-                        //isAvailable 매개변수를 넣어줌.
-                        0 -> loadProducts(null)
-                        1 -> loadProducts(true)
-                        2 -> loadProducts(false)
+                        // 각 버튼에 따라 해당하는 상품 로드
+                        0 -> loadProducts(null) // 모든 상품 로드
+                        1 -> loadProducts(true) // 판매 중인 상품 로드
+                        2 -> loadProducts(false) // 판매 완료된 상품 로드
                     }
                     dialog.dismiss()
                 }
@@ -55,66 +51,58 @@ class HomeFragment : Fragment() {
             dialog.show()
         }
 
-        // 로그아웃 버튼 찾아옴
+        // 로그아웃 버튼 클릭 시
         val logoutButton = view.findViewById<Button>(R.id.logoutButton)
         logoutButton.setOnClickListener {
-            // 로그아웃 수행
+            // Firebase에서 로그아웃
             auth.signOut()
             // 로그인 화면으로 이동
             navController?.navigate(R.id.action_homeFragment_to_loginFragment)
         }
 
-        //호출될때 firestore와 storage가져옴.
+        // Firestore 및 Storage 인스턴스 초기화
         db = FirebaseFirestore.getInstance()
         storage = FirebaseStorage.getInstance("gs://kkkk-82d4d.appspot.com")
 
-        //플로팅 액션 버튼을 통해서 글등록 화면으로 이동하는 버튼을 만듦.
+        // 글쓰기 화면으로 이동하는 FAB 버튼 클릭 시
         val fab = view.findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
-            // 글쓰기 화면으로 이동
             navController?.navigate(R.id.postFragment)
         }
 
         return view
     }
 
-    //프래그먼트의 뷰가 완성된 후 호출되는 메소드이다.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //내비게이션 컨트롤러를 찾는다.
+        // NavController 초기화
         navController = findNavController()
-        //모든 상품을 로드한다. 메소드 직접구현
+        // 모든 상품 로드
         loadProducts(null)
     }
 
-    //상품 로드하는 메소드. 인자로 상품의 판매 여부를 받음.
+    // 상품을 로드하는 메소드
     private fun loadProducts(isAvailable: Boolean?) {
         val productList = mutableListOf<Product>() // 상품 리스트 생성
-        // 어댑터 생성
-        adapter = ProductAdapter(requireContext(), productList, navController, false)
+        adapter = ProductAdapter(requireContext(), productList, navController, false) // 어댑터 생성
         recyclerView.adapter = adapter // 리사이클러뷰에 어댑터 설정
 
         auth = FirebaseAuth.getInstance()
 
-        // 상품의 사용 가능 여부에 따라 쿼리 생성
+        // 상품의 판매 여부에 따라 Firestore 쿼리 생성
         val products = if (isAvailable == null) {
-            // 만약 isAvailable이 null 로 들어오면 모든 상품 로드
-            db.collection("posts")
-        } else { //null 이 아니라면 해당 isAvailable에 맞는 상품만 로드
-            db.collection("posts").whereEqualTo("sell", isAvailable)
+            db.collection("posts") // 판매 여부에 관계없이 모든 상품 로드
+        } else {
+            db.collection("posts").whereEqualTo("sell", isAvailable) // 판매 여부에 맞는 상품 로드
         }
 
-        //쿼리를 통해서 데이터를 가져옴
+        // Firestore에서 데이터 가져오기
         products.get().addOnSuccessListener { result ->
             for (document in result) {
-                //문서를 Product 객체로 변환한다.
-                val product = document.toObject(Product::class.java)
-                //상품 리스트에 추가하고
-                productList.add(product)
+                val product = document.toObject(Product::class.java) // 문서를 Product 객체로 변환
+                productList.add(product) // 상품 리스트에 추가
             }
-            //어댑터에 데이터변경을 알림
-            adapter.notifyDataSetChanged()
+            adapter.notifyDataSetChanged() // 어댑터에 데이터 변경 알림
         }
     }
 }
-
