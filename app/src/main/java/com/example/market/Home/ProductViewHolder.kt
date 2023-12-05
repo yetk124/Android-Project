@@ -17,22 +17,22 @@ class ProductViewHolder(view: View, private val fromProfile: Boolean) : Recycler
     val titleView: TextView = view.findViewById(R.id.product_title)
     val priceView: TextView = view.findViewById(R.id.product_price)
     val statusView : TextView = view.findViewById(R.id.product_status)
-    
-    fun bind(product: Product, context: Context, navController: NavController) {
-        Glide.with(context).load(product.imageUrl).error(R.drawable.ic_default_image).into(imageView)
-        titleView.text = product.title
+
+    fun bind(product: Products, context: Context, navController: NavController) {
+        Glide.with(context).load(product.urlImg).error(R.drawable.ic_default_image).into(imageView)
+        titleView.text = product.titleName
         itemView.setOnClickListener {
             val bundle = Bundle().apply {
                 Log.d("productview", product.id)
                 putString("productId", product.id)
             }
             if (fromProfile) {
-              
+
                 Log.d("ProductViewHolder", "수정하기")
                 navController.navigate(R.id.editFragment, bundle)
             }
             else {
-               
+
                 Log.d("ProductViewHolder", "상세보기")
                 navController.navigate(R.id.sellDetailFragment, bundle)
             }
