@@ -1,6 +1,7 @@
 package com.example.market.Chat
 
-data class Chat( 
+data class Chatting(
+    val message: String? = null,
     val purchase: String? = null,
-    val message: String? = null
+
 )
