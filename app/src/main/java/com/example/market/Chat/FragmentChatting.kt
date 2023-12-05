@@ -8,12 +8,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.market.Home.ChatAdapter
+import com.example.market.Home.ChattingAdapter
 import com.example.market.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class ChatFragment : Fragment() {
+class FragmentChatting : Fragment() {
 
     // Firebase Authentication 및 Firestore 인스턴스 변수 선언
     private lateinit var auth: FirebaseAuth
@@ -21,14 +21,14 @@ class ChatFragment : Fragment() {
 
     // 채팅 목록을 표시하는 RecyclerView 및 어댑터 선언
     private lateinit var chatView: RecyclerView
-    private lateinit var chatAdapter: ChatAdapter
+    private lateinit var chatAdapter: ChattingAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // 프래그먼트의 레이아웃을 확장(inflate)합니다.
-        val view = inflater.inflate(R.layout.fragment_chat, container, false)
+        val view = inflater.inflate(R.layout.chat_frgment, container, false)
 
         // Firebase 인스턴스 초기화
         auth = FirebaseAuth.getInstance()
@@ -36,7 +36,7 @@ class ChatFragment : Fragment() {
 
         // RecyclerView 및 어댑터 초기화
         chatView = view.findViewById(R.id.messageView)
-        chatAdapter = ChatAdapter(this, emptyList())
+        chatAdapter = ChattingAdapter(this, emptyList())
 
         // RecyclerView에 LinearLayoutManager 및 어댑터 설정
         chatView.layoutManager = LinearLayoutManager(context)
@@ -57,11 +57,11 @@ class ChatFragment : Fragment() {
                 .whereEqualTo("seller", currentUserEmail)
                 .get()
                 .addOnSuccessListener { documents ->
-                    val chats = mutableListOf<Chat>()
+                    val chats = mutableListOf<Chatting>()
 
                     // 각 문서를 Chat 객체로 변환하여 리스트에 추가합니다.
                     for (document in documents) {
-                        val chat = document.toObject(Chat::class.java)
+                        val chat = document.toObject(Chatting::class.java)
                         chats.add(chat)
                     }
                     // 어댑터에 가져온 채팅 목록 설정
