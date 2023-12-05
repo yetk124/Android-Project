@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 
-class HomeFragment : Fragment() {
+class FragmentHome : Fragment() {
     lateinit var navController: NavController
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
@@ -26,7 +26,7 @@ class HomeFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
+        val view = inflater.inflate(R.layout.home_fragment, container, false)
 
         recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
 
@@ -82,8 +82,9 @@ class HomeFragment : Fragment() {
     }
 
     // 상품을 로드하는 메소드
+    // 상품을 로드하는 메소드
     private fun loadProducts(isAvailable: Boolean?) {
-        val productList = mutableListOf<Product>() // 상품 리스트 생성
+        val productList = mutableListOf<Products>() // 상품 리스트 생성
         adapter = ProductAdapter(requireContext(), productList, navController, false) // 어댑터 생성
         recyclerView.adapter = adapter // 리사이클러뷰에 어댑터 설정
 
@@ -99,7 +100,7 @@ class HomeFragment : Fragment() {
         // Firestore에서 데이터 가져오기
         products.get().addOnSuccessListener { result ->
             for (document in result) {
-                val product = document.toObject(Product::class.java) // 문서를 Product 객체로 변환
+                val product = document.toObject(Products::class.java) // 문서를 Product 객체로 변환
                 productList.add(product) // 상품 리스트에 추가
             }
             adapter.notifyDataSetChanged() // 어댑터에 데이터 변경 알림
