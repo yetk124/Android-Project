@@ -1,7 +1,9 @@
 package com.example.market.Chat
 
-data class Message( //판매자에게 메시지 보내는 데이터
+data class Message(
     val purchase: String?,
+
+    val seller: String?,
+
     val message: String?,
-    val seller: String?
 )
