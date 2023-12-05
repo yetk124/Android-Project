@@ -9,12 +9,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.market.BottomNavigationActivity
+import com.example.market.ActivityNavigation
 import com.example.market.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class SendFragment : Fragment() {
+class FragmentSend : Fragment() {
 
     // Firebase 인증(Authentication) 인스턴스
     private lateinit var auth: FirebaseAuth
@@ -26,20 +26,22 @@ class SendFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // 이 프래그먼트의 레이아웃을 확장(inflate)합니다.
-        val view = inflater.inflate(R.layout.fragment_send, container, false)
+        val view = inflater.inflate(R.layout.sen_fragment, container, false)
 
         // Firebase 인스턴스 초기화
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
         // 각 뷰들을 ID를 통해 찾습니다.
-        val recipientInput = view.findViewById<EditText>(R.id.recipientInput)
+        val emailInput = view.findViewById<EditText>(R.id.recipientInput)
+       
+        val sendingButton = view.findViewById<Button>(R.id.sendButton)
+
         val messageInput = view.findViewById<EditText>(R.id.messageInput)
-        val sendButton = view.findViewById<Button>(R.id.sendButton)
 
         // Arguments로부터 판매자 이메일을 가져와 설정합니다.
         val sellerEmail = arguments?.getString("sellerEmail")
-        recipientInput.setText(sellerEmail)
+        emailInput.setText(sellerEmail)
 
         // 현재 사용자의 이메일을 가져옵니다.
         val userEmail = auth.currentUser?.email
@@ -48,8 +50,8 @@ class SendFragment : Fragment() {
         }
 
         // 전송 버튼에 클릭 리스너를 추가합니다.
-        sendButton.setOnClickListener {
-            val recipient = recipientInput.text.toString()
+        sendingButton.setOnClickListener {
+            val recipient = emailInput.text.toString()
             val message = messageInput.text.toString()
 
             // Firestore에서 사용자 정보를 가져옵니다.
@@ -75,7 +77,7 @@ class SendFragment : Fragment() {
                             .add(newMessage)
                             .addOnSuccessListener {
                                 // BottomNavigationActivity로 이동하는 인텐트를 생성하고 실행합니다.
-                                val intent = Intent(context, BottomNavigationActivity::class.java)
+                                val intent = Intent(context, ActivityNavigation::class.java)
                                 startActivity(intent)
                             }
                             .addOnFailureListener { e ->
